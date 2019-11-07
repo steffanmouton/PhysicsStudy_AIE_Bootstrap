@@ -1,5 +1,7 @@
 #pragma once
 #include "PhysicsObject.h"
+#include <iostream>
+
 class RigidBody :
 	public PhysicsObject
 {
