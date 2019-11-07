@@ -19,9 +19,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{5B3923BC-1EF2-4F4F-9259-00C864E80959}</ProjectGuid>
+    <ProjectGuid>{2c108185-fb66-49e5-88ce-803ffb25b3d1}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>FixedTimestampStudy</RootNamespace>
+    <RootNamespace>AIETutorialRocketPhysics</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -162,7 +162,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Rocketship.cpp" />
+    <ClCompile Include="RocketShip.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="PhysicsObject.cpp" />
     <ClCompile Include="PhysicsScene.cpp" />
@@ -170,7 +170,7 @@
     <ClCompile Include="Sphere.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Rocketship.h" />
+    <ClInclude Include="RocketShip.h" />
     <ClInclude Include="PhysicsObject.h" />
     <ClInclude Include="PhysicsScene.h" />
     <ClInclude Include="RigidBody.h" />

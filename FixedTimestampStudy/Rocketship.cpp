@@ -1,17 +1,17 @@
-#include "FixedTimestampStudyApp.h"
+#include "Rocketship.h"
 #include "Texture.h"
 #include "Font.h"
 #include "Input.h"
 
-FixedTimestampStudyApp::FixedTimestampStudyApp() {
+Rocketship::Rocketship() {
 
 }
 
-FixedTimestampStudyApp::~FixedTimestampStudyApp() {
+Rocketship::~Rocketship() {
 
 }
 
-bool FixedTimestampStudyApp::startup() {
+bool Rocketship::startup() {
 	
 	// increase the 2d line count to maximize the number of obj we can draw
 	aie::Gizmos::create(255U, 255U, 65535U, 65535U);
@@ -24,18 +24,29 @@ bool FixedTimestampStudyApp::startup() {
 	m_font = new aie::Font("../bin/font/consolas.ttf", 32);
 
 	m_physicsScene = new PhysicsScene();
+	m_physicsScene->setGravity(glm::vec2(0, 0)); // Gravity Control
 	m_physicsScene->setTimeStep(0.01f);
+
+
+	ball = new Sphere(glm::vec2(-20, 0), glm::vec2(0, 0), 4.0f, 4, glm::vec4(1, 0, 0, 1));
+	ball2 = new Sphere(glm::vec2(20, 0), glm::vec2(0, 0), 4.0f, 4, glm::vec4(0, 1, 0, 1));
+	m_physicsScene->addActor(ball);
+	m_physicsScene->addActor(ball2);
+
+	ball->applyForce(glm::vec2(50, 20));
+	ball2->applyForce(glm::vec2(-40, 20));
+	
 
 	return true;
 }
 
-void FixedTimestampStudyApp::shutdown() {
+void Rocketship::shutdown() {
 
 	delete m_font;
 	delete m_2dRenderer;
 }
 
-void FixedTimestampStudyApp::update(float deltaTime) {
+void Rocketship::update(float deltaTime) {
 
 	// input example
 	aie::Input* input = aie::Input::getInstance();
@@ -48,9 +59,15 @@ void FixedTimestampStudyApp::update(float deltaTime) {
 	// exit the application
 	if (input->isKeyDown(aie::INPUT_KEY_ESCAPE))
 		quit();
+
+	if (input->isKeyDown(aie::INPUT_KEY_SPACE))
+	{
+		ball->applyForce(glm::vec2(10, 0));
+	}
+	
 }
 
-void FixedTimestampStudyApp::draw() {
+void Rocketship::draw() {
 
 	// wipe the screen to the background colour
 	clearScreen();

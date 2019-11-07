@@ -5,18 +5,22 @@
 #include <Gizmos.h>
 #include "PhysicsScene.h"
 #include <glm\ext.hpp>
+#include "Sphere.h"
 
-class FixedTimestampStudyApp : public aie::Application {
+class Rocketship : public aie::Application {
 public:
 
-	FixedTimestampStudyApp();
-	virtual ~FixedTimestampStudyApp();
+	Rocketship();
+	virtual ~Rocketship();
 
 	virtual bool startup();
 	virtual void shutdown();
 
 	virtual void update(float deltaTime);
 	virtual void draw();
+
+	Sphere* ball;
+	Sphere* ball2;
 
 protected:
 

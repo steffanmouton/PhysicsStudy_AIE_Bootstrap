@@ -30,7 +30,7 @@
     <ClCompile Include="Sphere.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Rocketship.cpp">
+    <ClCompile Include="RocketShip.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -47,7 +47,7 @@
     <ClInclude Include="Sphere.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Rocketship.h">
+    <ClInclude Include="RocketShip.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
