@@ -6,12 +6,13 @@
 #include "PhysicsScene.h"
 #include <glm\ext.hpp>
 #include "Sphere.h"
+#include <list>
 
-class Rocketship : public aie::Application {
+class RocketShip : public aie::Application {
 public:
 
-	Rocketship();
-	virtual ~Rocketship();
+	RocketShip();
+	virtual ~RocketShip();
 
 	virtual bool startup();
 	virtual void shutdown();
@@ -21,6 +22,13 @@ public:
 
 	Sphere* ball;
 	Sphere* ball2;
+
+	float timer;
+	float fireRate;
+	float fuelMassUnit;
+	float fuelDisplacement;
+
+	static std::list<PhysicsObject*> fuelSpheres;
 
 protected:
 

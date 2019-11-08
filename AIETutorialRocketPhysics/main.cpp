@@ -3,7 +3,7 @@
 int main() {
 	
 	// allocation
-	auto app = new Rocketship();
+	auto app = new RocketShip();
 
 	// initialise and loop
 	app->run("AIE", 1280, 720, false);

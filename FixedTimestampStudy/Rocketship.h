@@ -7,11 +7,11 @@
 #include <glm\ext.hpp>
 #include "Sphere.h"
 
-class Rocketship : public aie::Application {
+class RocketShip : public aie::Application {
 public:
 
-	Rocketship();
-	virtual ~Rocketship();
+	RocketShip();
+	virtual ~RocketShip();
 
 	virtual bool startup();
 	virtual void shutdown();

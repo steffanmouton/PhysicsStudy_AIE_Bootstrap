@@ -3,19 +3,23 @@
 #include "Font.h"
 #include "Input.h"
 
-Rocketship::Rocketship() {
+RocketShip::RocketShip() {
 
 }
 
-Rocketship::~Rocketship() {
+RocketShip::~RocketShip() {
 
 }
 
-bool Rocketship::startup() {
+bool RocketShip::startup() {
 	
 	// increase the 2d line count to maximize the number of obj we can draw
 	aie::Gizmos::create(255U, 255U, 65535U, 65535U);
-	
+
+	timer = 0.0f;
+	fireRate = .1f;
+	fuelMassUnit = .1f;
+	fuelDisplacement = .1f;
 	
 	m_2dRenderer = new aie::Renderer2D();
 
@@ -24,30 +28,26 @@ bool Rocketship::startup() {
 	m_font = new aie::Font("../bin/font/consolas.ttf", 32);
 
 	m_physicsScene = new PhysicsScene();
-	m_physicsScene->setGravity(glm::vec2(0, 0)); // Gravity Control
+	m_physicsScene->setGravity(glm::vec2(0, -10)); // Gravity Control
 	m_physicsScene->setTimeStep(0.01f);
 
 
-	ball = new Sphere(glm::vec2(-20, 0), glm::vec2(0, 0), 4.0f, 4, glm::vec4(1, 0, 0, 1));
-	ball2 = new Sphere(glm::vec2(20, 0), glm::vec2(0, 0), 4.0f, 4, glm::vec4(0, 1, 0, 1));
-	m_physicsScene->addActor(ball);
-	m_physicsScene->addActor(ball2);
-
-	ball->applyForce(glm::vec2(50, 20));
-	ball2->applyForce(glm::vec2(-40, 20));
+	ball = new Sphere(glm::vec2(0, 0), glm::vec2(0, 0), 4.0f, 4, glm::vec4(1, 0, 0, 1));
 	
+	m_physicsScene->addActor(ball);
 
 	return true;
 }
 
-void Rocketship::shutdown() {
-
+void RocketShip::shutdown() {
+	
 	delete m_font;
 	delete m_2dRenderer;
+	
 }
 
-void Rocketship::update(float deltaTime) {
-
+void RocketShip::update(float deltaTime) {
+	
 	// input example
 	aie::Input* input = aie::Input::getInstance();
 
@@ -62,12 +62,25 @@ void Rocketship::update(float deltaTime) {
 
 	if (input->isKeyDown(aie::INPUT_KEY_SPACE))
 	{
-		ball->applyForce(glm::vec2(10, 0));
+		if (timer > fireRate)
+		{
+			timer = 0.f;
+			ball->applyForce(glm::vec2(0, 5));
+			ball->m_mass -= fuelMassUnit;
+
+			auto fuel = new Sphere(glm::vec2(ball->m_position.x, ball->m_position.y - ball->getRadius() - fuelDisplacement),
+				glm::vec2(0, 0), 10.0f, .3f, glm::vec4(.25, .25, .25, 1));
+
+			fuel->applyForce(glm::vec2(0, -10));
+			m_physicsScene->addActor(fuel);
+			//fuelSpheres.push_front(fuel);
+		}
 	}
-	
+
+	timer += deltaTime;
 }
 
-void Rocketship::draw() {
+void RocketShip::draw() {
 
 	// wipe the screen to the background colour
 	clearScreen();
