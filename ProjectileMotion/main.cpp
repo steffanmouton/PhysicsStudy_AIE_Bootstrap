@@ -1,9 +1,9 @@
-#include "RocketShip.h"
+#include "FixedTimestampStudyApp.h"
 
 int main() {
 	
 	// allocation
-	auto app = new RocketShip();
+	auto app = new FixedTimestampStudyApp();
 
 	// initialise and loop
 	app->run("AIE", 1280, 720, false);

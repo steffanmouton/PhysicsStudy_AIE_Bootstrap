@@ -56,7 +56,6 @@ void PhysicsScene::update(float dt)
 
 		accumulatedTime -= m_timeStep;
 
-		/*
 		// check for collisions
 		for (auto pActor : m_actors)
 		{
@@ -78,7 +77,7 @@ void PhysicsScene::update(float dt)
 					dirty.push_back(pOther);
 				}
 			}
-		}*/
+		}
 		dirty.clear();
 	}
 }

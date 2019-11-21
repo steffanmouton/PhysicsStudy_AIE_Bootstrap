@@ -7,11 +7,11 @@
 #include <glm\ext.hpp>
 #include "Sphere.h"
 
-class RocketShip : public aie::Application {
+class FixedTimestampStudyApp : public aie::Application {
 public:
 
-	RocketShip();
-	virtual ~RocketShip();
+	FixedTimestampStudyApp();
+	virtual ~FixedTimestampStudyApp();
 
 	virtual bool startup();
 	virtual void shutdown();
@@ -19,8 +19,7 @@ public:
 	virtual void update(float deltaTime);
 	virtual void draw();
 
-	Sphere* ball;
-	Sphere* ball2;
+	void setupContinuousDemo(glm::vec2 startPos, float inclination, float speed, float gravity);
 
 protected:
 

@@ -1,17 +1,17 @@
-#include "Rocketship.h"
+#include "RocketShip.h"
 #include "Texture.h"
 #include "Font.h"
 #include "Input.h"
 
-Rocketship::Rocketship() {
+RocketShip::RocketShip() {
 
 }
 
-Rocketship::~Rocketship() {
+RocketShip::~RocketShip() {
 
 }
 
-bool Rocketship::startup() {
+bool RocketShip::startup() {
 	
 	// increase the 2d line count to maximize the number of obj we can draw
 	aie::Gizmos::create(255U, 255U, 65535U, 65535U);
@@ -40,13 +40,13 @@ bool Rocketship::startup() {
 	return true;
 }
 
-void Rocketship::shutdown() {
+void RocketShip::shutdown() {
 
 	delete m_font;
 	delete m_2dRenderer;
 }
 
-void Rocketship::update(float deltaTime) {
+void RocketShip::update(float deltaTime) {
 
 	// input example
 	aie::Input* input = aie::Input::getInstance();
@@ -62,12 +62,12 @@ void Rocketship::update(float deltaTime) {
 
 	if (input->isKeyDown(aie::INPUT_KEY_SPACE))
 	{
-		ball->applyForce(glm::vec2(10, 0));
+		
 	}
 	
 }
 
-void Rocketship::draw() {
+void RocketShip::draw() {
 
 	// wipe the screen to the background colour
 	clearScreen();

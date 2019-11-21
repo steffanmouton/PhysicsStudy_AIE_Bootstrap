@@ -1,25 +1,21 @@
-#include "RocketShip.h"
+#include "FixedTimestampStudyApp.h"
 #include "Texture.h"
 #include "Font.h"
 #include "Input.h"
 
-RocketShip::RocketShip() {
+FixedTimestampStudyApp::FixedTimestampStudyApp() {
 
 }
 
-RocketShip::~RocketShip() {
+FixedTimestampStudyApp::~FixedTimestampStudyApp() {
 
 }
 
-bool RocketShip::startup() {
+bool FixedTimestampStudyApp::startup() {
 	
 	// increase the 2d line count to maximize the number of obj we can draw
 	aie::Gizmos::create(255U, 255U, 65535U, 65535U);
-
-	timer = 0.0f;
-	fireRate = .1f;
-	fuelMassUnit = .1f;
-	fuelDisplacement = .1f;
+	
 	
 	m_2dRenderer = new aie::Renderer2D();
 
@@ -28,30 +24,26 @@ bool RocketShip::startup() {
 	m_font = new aie::Font("../bin/font/consolas.ttf", 32);
 
 	m_physicsScene = new PhysicsScene();
-	m_physicsScene->setGravity(glm::vec2(0, -10)); // Gravity Control
+	m_physicsScene->setGravity(glm::vec2(0, 0)); // Gravity Control
 	m_physicsScene->setTimeStep(0.01f);
 
-
-	ball = new Sphere(glm::vec2(0, 0), glm::vec2(0, 0), 4.0f, 4, glm::vec4(1, 0, 0, 1));
-	
-	m_physicsScene->addActor(ball);
+	setupContinuousDemo(glm::vec2(-40, 0), 45, 40, 10);
 
 	return true;
 }
 
-void RocketShip::shutdown() {
-	
+void FixedTimestampStudyApp::shutdown() {
+
 	delete m_font;
 	delete m_2dRenderer;
-	
 }
 
-void RocketShip::update(float deltaTime) {
-	
+void FixedTimestampStudyApp::update(float deltaTime) {
+
 	// input example
 	aie::Input* input = aie::Input::getInstance();
 
-	aie::Gizmos::clear();
+	//aie::Gizmos::clear();
 
 	m_physicsScene->update(deltaTime);
 	m_physicsScene->updateGizmos();
@@ -62,25 +54,12 @@ void RocketShip::update(float deltaTime) {
 
 	if (input->isKeyDown(aie::INPUT_KEY_SPACE))
 	{
-		if (timer > fireRate)
-		{
-			timer = 0.f;
-			ball->applyForce(glm::vec2(0, 5));
-			ball->m_mass -= fuelMassUnit;
-
-			auto fuel = new Sphere(glm::vec2(ball->m_position.x, ball->m_position.y - ball->getRadius() - fuelDisplacement),
-				glm::vec2(0, 0), 10.0f, .3f, glm::vec4(.25, .25, .25, 1));
-
-			fuel->applyForce(glm::vec2(0, -10));
-			m_physicsScene->addActor(fuel);
-			//fuelSpheres.push_front(fuel);
-		}
+		
 	}
-
-	timer += deltaTime;
+	
 }
 
-void RocketShip::draw() {
+void FixedTimestampStudyApp::draw() {
 
 	// wipe the screen to the background colour
 	clearScreen();
@@ -98,4 +77,30 @@ void RocketShip::draw() {
 
 	// done drawing sprites
 	m_2dRenderer->end();
+}
+
+void FixedTimestampStudyApp::setupContinuousDemo(glm::vec2 startPos, float inclination, float speed, float gravity)
+{
+	float t = 0;
+	float tStep = 0.05f;
+	float radius = 1.0f;
+	int segments = 12;
+	glm::vec4 colour = glm::vec4(1, 1, 0, 1);
+
+	float xPos;
+	float yPos;
+
+	while (t<=10)
+	{
+		// calculate the x,y position of the projectile at time t
+		xPos = startPos.x + (speed*glm::cos(inclination)) * t;
+		yPos = startPos.y + (speed*glm::sin(inclination)) * t + .5 * -gravity * t * t;
+
+
+
+
+		
+		aie::Gizmos::add2DCircle(glm::vec2(xPos, yPos), radius, segments, colour);
+		t += tStep;
+	}
 }
