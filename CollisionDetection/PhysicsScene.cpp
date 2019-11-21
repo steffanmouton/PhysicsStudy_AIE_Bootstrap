@@ -1,6 +1,8 @@
 #include "PhysicsScene.h"
 #include <list>
 #include "RigidBody.h"
+#include "../CollisionDetection/Sphere.h"
+#include <glm/detail/func_geometric.inl>
 
 
 PhysicsScene::PhysicsScene()
@@ -134,5 +136,36 @@ void PhysicsScene::checkForCollision()
 			}
 		}
 	}
+}
+
+bool PhysicsScene::plane2Plane(PhysicsObject*, PhysicsObject*)
+{
+}
+
+bool PhysicsScene::plane2Sphere(PhysicsObject*, PhysicsObject*)
+{
+}
+
+bool PhysicsScene::sphere2Plane(PhysicsObject*, PhysicsObject*)
+{
+}
+
+bool PhysicsScene::sphere2Sphere(PhysicsObject* obj1, PhysicsObject* obj2)
+{
+	// try to cast objects to sphere and sphere
+	Sphere *sphere1 = dynamic_cast<Sphere*>(obj1);
+	Sphere *sphere2 = dynamic_cast<Sphere*>(obj2);
+
+	// if successful, check for collision
+	if (sphere1 != nullptr && sphere2 != nullptr)
+	{
+		// TODO: make the spheres touch
+		/*if (glm::distance(sphere1->m_position, m_position) < m_radius + spherePtr->m_radius)
+		{
+			return true;
+		}*/
+	}
+
+	return false;
 }
 
