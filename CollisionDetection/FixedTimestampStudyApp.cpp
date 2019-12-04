@@ -24,12 +24,15 @@ bool FixedTimestampStudyApp::startup() {
 	m_font = new aie::Font("../bin/font/consolas.ttf", 32);
 
 	m_physicsScene = new PhysicsScene();
-	m_physicsScene->setGravity(glm::vec2(0, 0)); // Gravity Control
+	m_physicsScene->setGravity(glm::vec2(0, -10)); // Gravity Control
 	m_physicsScene->setTimeStep(0.01f);
 
 
 	ball = new Sphere(glm::vec2(-20, 0), glm::vec2(0, 0), 4.0f, 4, glm::vec4(1, 0, 0, 1));
 	ball2 = new Sphere(glm::vec2(20, 0), glm::vec2(0, 0), 4.0f, 4, glm::vec4(0, 1, 0, 1));
+	//plane1 = 
+
+	
 	m_physicsScene->addActor(ball);
 	m_physicsScene->addActor(ball2);
 
@@ -62,7 +65,7 @@ void FixedTimestampStudyApp::update(float deltaTime) {
 
 	if (input->isKeyDown(aie::INPUT_KEY_SPACE))
 	{
-		ball->applyForce(glm::vec2(10, 0));
+		ball->applyForce(glm::vec2(10, 10));
 	}
 	
 }

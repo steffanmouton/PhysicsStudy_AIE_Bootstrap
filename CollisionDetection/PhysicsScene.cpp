@@ -3,6 +3,7 @@
 #include "RigidBody.h"
 #include "../CollisionDetection/Sphere.h"
 #include <glm/detail/func_geometric.inl>
+#include "Plane.h"
 
 
 PhysicsScene::PhysicsScene()
@@ -58,29 +59,10 @@ void PhysicsScene::update(float dt)
 
 		accumulatedTime -= m_timeStep;
 
-		// check for collisions
-		for (auto pActor : m_actors)
-		{
-			for (auto pOther: m_actors)
-			{
-				if (pActor == pOther)
-					continue;
-				if (std::find(dirty.begin(), dirty.end(), pActor) != dirty.end() &&
-					std::find(dirty.begin(), dirty.end(), pOther) != dirty.end())
-					continue;
 
-				RigidBody* pRigid = dynamic_cast<RigidBody*>(pActor);
-				if (pRigid->checkCollision(pOther) == true)
-				{
-					pRigid->applyForceToActor(
-						dynamic_cast<RigidBody*>(pOther),
-						pRigid->getVelocity() * pRigid->getMass());
-					dirty.push_back(pRigid);
-					dirty.push_back(pOther);
-				}
-			}
-		}
-		dirty.clear();
+		// Here is where the physics magic happens. Check For collisions. Do things.
+		checkForCollision();
+
 	}
 }
 
@@ -126,7 +108,7 @@ void PhysicsScene::checkForCollision()
 			int shapeId2 = object2->getShapeID();
 
 			//using function pointers
-			int functionIdx = (shapeId1 * SHAPE_COUNT) + shapeId2;
+			int functionIdx = (shapeId1 * (SHAPE_COUNT-1)) + shapeId2;
 			fn collisionFunctionPtr = collisionFunctionArray[functionIdx];
 
 			if (collisionFunctionPtr != nullptr)
@@ -138,16 +120,46 @@ void PhysicsScene::checkForCollision()
 	}
 }
 
-bool PhysicsScene::plane2Plane(PhysicsObject*, PhysicsObject*)
+bool PhysicsScene::plane2Plane(PhysicsObject* obj1, PhysicsObject* obj2)
 {
+	return false;
 }
 
-bool PhysicsScene::plane2Sphere(PhysicsObject*, PhysicsObject*)
+bool PhysicsScene::plane2Sphere(PhysicsObject* obj1, PhysicsObject* obj2)
 {
+	return false;
 }
 
-bool PhysicsScene::sphere2Plane(PhysicsObject*, PhysicsObject*)
+bool PhysicsScene::sphere2Plane(PhysicsObject* obj1, PhysicsObject* obj2)
 {
+	Sphere *sphere = dynamic_cast<Sphere*>(obj1);
+	Plane *plane = dynamic_cast<Plane*>(obj2);
+
+	// if cast is successful, check for collision
+
+	if (sphere != nullptr && plane != nullptr)
+	{
+		glm::vec2 collisionNormal = plane->getNormal();
+		float sphereToPlane = glm::dot(sphere->getPosition(), plane->getNormal()) - plane->getDistance();
+
+		// if we are behind the plane then flip the normal
+
+		if (sphereToPlane < 0)
+		{
+			collisionNormal *= -1;
+			sphereToPlane *= -1;
+		}
+
+		float intersection = sphere->getRadius() - sphereToPlane;
+		if (intersection > 0)
+		{
+			sphere->setVelocity(glm::vec2{ 0,0 });
+			return true;
+		}
+	}
+
+	return false;
+	
 }
 
 bool PhysicsScene::sphere2Sphere(PhysicsObject* obj1, PhysicsObject* obj2)
@@ -159,11 +171,16 @@ bool PhysicsScene::sphere2Sphere(PhysicsObject* obj1, PhysicsObject* obj2)
 	// if successful, check for collision
 	if (sphere1 != nullptr && sphere2 != nullptr)
 	{
-		// TODO: make the spheres touch
-		/*if (glm::distance(sphere1->m_position, m_position) < m_radius + spherePtr->m_radius)
+		if (glm::distance(sphere1->getPosition(), sphere2->getPosition()) < sphere1->getRadius() + sphere2->getRadius())
 		{
+			sphere1->setVelocity(glm::vec2{ 0,0 });
+			sphere2->setVelocity(glm::vec2{ 0,0 });
 			return true;
-		}*/
+		}
+
+		glm::normalize(sphere1->getVelocity());
+
+		return false;
 	}
 
 	return false;
