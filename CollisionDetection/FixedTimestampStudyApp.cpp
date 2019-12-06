@@ -30,11 +30,12 @@ bool FixedTimestampStudyApp::startup() {
 
 	ball = new Sphere(glm::vec2(-20, 0), glm::vec2(0, 0), 4.0f, 4, glm::vec4(1, 0, 0, 1));
 	ball2 = new Sphere(glm::vec2(20, 0), glm::vec2(0, 0), 4.0f, 4, glm::vec4(0, 1, 0, 1));
-	//plane1 = 
+	plane1 = new Plane(glm::vec2{ 1,0 }, 0);
 
 	
 	m_physicsScene->addActor(ball);
 	m_physicsScene->addActor(ball2);
+	//m_physicsScene->addActor(plane1); 
 
 	ball->applyForce(glm::vec2(50, 20));
 	ball2->applyForce(glm::vec2(-40, 20));
