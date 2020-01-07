@@ -6,6 +6,7 @@
 #include "PhysicsScene.h"
 #include <glm\ext.hpp>
 #include "Sphere.h"
+#include "Plane.h"
 
 class FixedTimestampStudyApp : public aie::Application {
 public:
@@ -21,6 +22,7 @@ public:
 
 	Sphere* ball;
 	Sphere* ball2;
+	Plane* plane1;
 
 protected:
 
