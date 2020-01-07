@@ -6,7 +6,7 @@
 PhysicsScene::PhysicsScene()
 {
 	setTimeStep(.01f);
-	setGravity(glm::vec2(0, 0));
+	setGravity(glm::vec2(0, -100));
 }
 
 

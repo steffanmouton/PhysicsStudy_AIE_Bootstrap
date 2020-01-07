@@ -127,13 +127,10 @@ bool PhysicsScene::plane2Plane(PhysicsObject* obj1, PhysicsObject* obj2)
 
 bool PhysicsScene::plane2Sphere(PhysicsObject* obj1, PhysicsObject* obj2)
 {
-	return false;
-}
+	Sphere *sphere = dynamic_cast<Sphere*>(obj2);
+	Plane *plane = dynamic_cast<Plane*>(obj1);
 
-bool PhysicsScene::sphere2Plane(PhysicsObject* obj1, PhysicsObject* obj2)
-{
-	Sphere *sphere = dynamic_cast<Sphere*>(obj1);
-	Plane *plane = dynamic_cast<Plane*>(obj2);
+
 
 	// if cast is successful, check for collision
 
@@ -151,9 +148,55 @@ bool PhysicsScene::sphere2Plane(PhysicsObject* obj1, PhysicsObject* obj2)
 		}
 
 		float intersection = sphere->getRadius() - sphereToPlane;
+
 		if (intersection > 0)
 		{
+			glm::vec2 sphereTempVel = sphere->getVelocity();
+
 			sphere->setVelocity(glm::vec2{ 0,0 });
+
+			sphere->applyForce(-sphereTempVel);
+
+			return true;
+		}
+	}
+
+	return false;
+
+}
+
+bool PhysicsScene::sphere2Plane(PhysicsObject* obj1, PhysicsObject* obj2)
+{
+	Sphere *sphere = dynamic_cast<Sphere*>(obj1);
+	Plane *plane = dynamic_cast<Plane*>(obj2);
+
+	
+
+	// if cast is successful, check for collision
+
+	if (sphere != nullptr && plane != nullptr)
+	{
+		glm::vec2 collisionNormal = plane->getNormal();
+		float sphereToPlane = glm::dot(sphere->getPosition(), plane->getNormal()) - plane->getDistance();
+
+		// if we are behind the plane then flip the normal
+
+		if (sphereToPlane < 0)
+		{
+			collisionNormal *= -1;
+			sphereToPlane *= -1;
+		}
+
+		float intersection = sphere->getRadius() - sphereToPlane;
+		
+		if (intersection > 0)
+		{
+			glm::vec2 sphereTempVel = sphere->getVelocity();
+			
+			sphere->setVelocity(glm::vec2{ 0,0 });
+			
+			sphere->applyForce(-sphereTempVel);
+
 			return true;
 		}
 	}
@@ -168,17 +211,22 @@ bool PhysicsScene::sphere2Sphere(PhysicsObject* obj1, PhysicsObject* obj2)
 	Sphere *sphere1 = dynamic_cast<Sphere*>(obj1);
 	Sphere *sphere2 = dynamic_cast<Sphere*>(obj2);
 
+	RigidBody *sphere1Rb = dynamic_cast<RigidBody*>(sphere1);
+	RigidBody *sphere2Rb = dynamic_cast<RigidBody*>(sphere2);
+
 	// if successful, check for collision
 	if (sphere1 != nullptr && sphere2 != nullptr)
 	{
 		if (glm::distance(sphere1->getPosition(), sphere2->getPosition()) < sphere1->getRadius() + sphere2->getRadius())
 		{
-			sphere1->setVelocity(glm::vec2{ 0,0 });
-			sphere2->setVelocity(glm::vec2{ 0,0 });
+			glm::vec2 sphere1tempvel = sphere1->getVelocity();
+			glm::vec2 sphere2tempvel = sphere2->getVelocity();
+			
+			sphere1Rb->applyForceToActor(sphere2Rb, sphere1tempvel * sphere1Rb->getMass());
+			sphere2Rb->applyForceToActor(sphere1Rb, sphere2tempvel * sphere2Rb->getMass());
+			
 			return true;
 		}
-
-		glm::normalize(sphere1->getVelocity());
 
 		return false;
 	}

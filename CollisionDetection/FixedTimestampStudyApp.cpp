@@ -21,7 +21,8 @@ bool FixedTimestampStudyApp::startup() {
 
 	// TODO: remember to change this when redistributing a build!
 	// the following path would be used instead: "./font/consolas.ttf"
-	m_font = new aie::Font("../bin/font/consolas.ttf", 32);
+	// vs "../bin/font/consolas.ttf"
+	m_font = new aie::Font("./font/consolas.ttf", 32);
 
 	m_physicsScene = new PhysicsScene();
 	m_physicsScene->setGravity(glm::vec2(0, -10)); // Gravity Control
@@ -30,12 +31,12 @@ bool FixedTimestampStudyApp::startup() {
 
 	ball = new Sphere(glm::vec2(-20, 0), glm::vec2(0, 0), 4.0f, 4, glm::vec4(1, 0, 0, 1));
 	ball2 = new Sphere(glm::vec2(20, 0), glm::vec2(0, 0), 4.0f, 4, glm::vec4(0, 1, 0, 1));
-	plane1 = new Plane(glm::vec2{ 1,0 }, 0);
+	plane1 = new Plane(glm::vec2{ 0,-1 }, 50);
 
 	
 	m_physicsScene->addActor(ball);
 	m_physicsScene->addActor(ball2);
-	//m_physicsScene->addActor(plane1); 
+	m_physicsScene->addActor(plane1); 
 
 	ball->applyForce(glm::vec2(50, 20));
 	ball2->applyForce(glm::vec2(-40, 20));

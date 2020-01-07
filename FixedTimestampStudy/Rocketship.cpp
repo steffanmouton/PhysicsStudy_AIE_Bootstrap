@@ -21,10 +21,11 @@ bool RocketShip::startup() {
 
 	// TODO: remember to change this when redistributing a build!
 	// the following path would be used instead: "./font/consolas.ttf"
-	m_font = new aie::Font("../bin/font/consolas.ttf", 32);
+	// vs "../bin/font/consolas.ttf"
+	m_font = new aie::Font(".font/consolas.ttf", 32);
 
 	m_physicsScene = new PhysicsScene();
-	m_physicsScene->setGravity(glm::vec2(0, 0)); // Gravity Control
+	m_physicsScene->setGravity(glm::vec2(0, -3)); // Gravity Control
 	m_physicsScene->setTimeStep(0.01f);
 
 
