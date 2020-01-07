@@ -15,6 +15,13 @@ To calculate collisions between different shapes in the scene, our PhysicsScene 
 
 This document is intended to detail the physics object classes, properties, and how they interact together.
 
+This project contains two exe applications.
+
+| File | Purpose|
+| --- | --- |
+| CollisionDetection.exe | Demonstrates custom physics code that can handle collision detection and resolution between different shapes. |
+| AIETutorialRocketPhysics.exe | Demonstration of a simple Rocketship. Uses my custom physics code. Holding space bar spends fuel to propel the rocketship upward. Spending fuel reduces the total mass inside the rocketship, which makes it lighter and easier to propel. |
+
 ---
 ## Shapes
 
