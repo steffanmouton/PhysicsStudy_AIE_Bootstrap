@@ -59,7 +59,8 @@ void RocketShip::update(float deltaTime) {
 	// exit the application
 	if (input->isKeyDown(aie::INPUT_KEY_ESCAPE))
 		quit();
-
+	
+	// space bar to use fuel and gain lift
 	if (input->isKeyDown(aie::INPUT_KEY_SPACE))
 	{
 		if (timer > fireRate)
@@ -67,13 +68,15 @@ void RocketShip::update(float deltaTime) {
 			timer = 0.f;
 			ball->applyForce(glm::vec2(0, 5));
 			ball->m_mass -= fuelMassUnit;
-
+			
+			// Create a new sphere below the rocket, with a vector to push it away from player
 			auto fuel = new Sphere(glm::vec2(ball->m_position.x, ball->m_position.y - ball->getRadius() - fuelDisplacement),
 				glm::vec2(0, 0), 10.0f, .3f, glm::vec4(.25, .25, .25, 1));
 
+			// apply force to rocket, pushing it upwards
 			fuel->applyForce(glm::vec2(0, -10));
 			m_physicsScene->addActor(fuel);
-			//fuelSpheres.push_front(fuel);
+			
 		}
 	}
 
