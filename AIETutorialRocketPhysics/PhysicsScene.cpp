@@ -56,29 +56,6 @@ void PhysicsScene::update(float dt)
 
 		accumulatedTime -= m_timeStep;
 
-		/*
-		// check for collisions
-		for (auto pActor : m_actors)
-		{
-			for (auto pOther: m_actors)
-			{
-				if (pActor == pOther)
-					continue;
-				if (std::find(dirty.begin(), dirty.end(), pActor) != dirty.end() &&
-					std::find(dirty.begin(), dirty.end(), pOther) != dirty.end())
-					continue;
-
-				RigidBody* pRigid = dynamic_cast<RigidBody*>(pActor);
-				if (pRigid->checkCollision(pOther) == true)
-				{
-					pRigid->applyForceToActor(
-						dynamic_cast<RigidBody*>(pOther),
-						pRigid->getVelocity() * pRigid->getMass());
-					dirty.push_back(pRigid);
-					dirty.push_back(pOther);
-				}
-			}
-		}*/
 		dirty.clear();
 	}
 }
